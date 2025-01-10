@@ -1,2 +1,2 @@
-# skiena
+# algo
 research and practice algorithms
