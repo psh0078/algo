@@ -1,2 +1,2 @@
 # algo
-research and practice algorithms
+A collection of resources, writings, implementations, and research in algorithms.
