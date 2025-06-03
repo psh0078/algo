@@ -40,6 +40,39 @@ public class myVector<T>  {
     if (data.length == size) { resize(2*data.length); }
     data[size++] = item;
   }
+
+  public T pop() {
+    T item = data[--size];
+    data[size] = null; // avoid loitering
+    if (size == data.length/4 && size > 0 ) { resize(data.length/2); }
+    return item;
+  }
+
+  public int find(T item) {
+    for (int i = 0; i < capacity; i++) {
+      if ( item.equals(data[i]) ) { 
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  public void insert(int index, T item) {
+    if (size == capacity) {
+        resize(capacity * 2);
+    }
+    System.out.println("New Cap." + capacity);
+    for (int i = size - 1; i >= index; i--) {
+      data[i + 1] = data[i];
+    }
+    data[index] = item;
+    size++;
+  }
+
+  public void prepend(T item) {
+    insert(0, item);
+  }
+
   public static void main(String[] args) {
     System.out.println("==========================================================");
     System.out.println("____   ____             __                ");
@@ -51,12 +84,32 @@ public class myVector<T>  {
     System.out.println("                                               ");
     System.out.println("==========================================================");
 
-    int cap = 5;
-    myVector<Integer> vec = new myVector<Integer>(cap);
+    int initialCapacity = 5;
+    myVector<Integer> vec = new myVector<>(initialCapacity);
+
+    System.out.println("Initial State:");
     vec.stat();
+
+    System.out.println("\nPushing 10 elements...");
     for (int i = 0; i < 10; i++) {
-      vec.push(i);
+        vec.push(i);
     }
+    vec.stat();
+
+    System.out.println("\nAccess Test:");
+    System.out.println("  Element at index 4: " + vec.at(4));
+
+    System.out.println("\nFind Test:");
+    System.out.println("  Index of value 5: " + vec.find(5));
+
+    System.out.println("\nInsert Test:");
+    System.out.println("  Inserting 20 at index 4...");
+    vec.insert(4, 20);
+    vec.stat();
+
+    System.out.println("\nPrepend Test:");
+    System.out.println("  Prepending null...");
+    vec.prepend(null);
     vec.stat();
   }
 }
