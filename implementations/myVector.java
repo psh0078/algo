@@ -23,8 +23,15 @@ public class myVector<T>  {
 
   public void stat() {
       System.out.println("INFO:");
-      System.out.printf("  Size:     %d\n", size);
-      System.out.printf("  Capacity: %d\n", capacity);
+      System.out.printf(" Size:     %d\n", size);
+      System.out.printf(" Capacity: %d\n", capacity);
+      System.out.print(" Items:    [");
+      for (int i = 0; i < size; i++) {
+          System.out.print(data[i]);
+          if (i < size - 1) System.out.print(", ");
+      }
+      System.out.println("]");
+      System.out.println("━━━━━━━━━━━━━━━━━━━━━━");
   }
 
   private void resize(int new_capacity) {
@@ -61,16 +68,33 @@ public class myVector<T>  {
     if (size == capacity) {
         resize(capacity * 2);
     }
-    System.out.println("New Cap." + capacity);
     for (int i = size - 1; i >= index; i--) {
       data[i + 1] = data[i];
     }
     data[index] = item;
     size++;
   }
-
+  
   public void prepend(T item) {
     insert(0, item);
+  }
+
+  public void delete(int index) {
+    for (int i = index; i < size; i++) {
+      data[i] = data[i + 1];
+    }
+    size--;
+    if (size == data.length/4 && size > 0 ) { resize(data.length/2); }
+  }
+
+  public void remove(T item) {
+    for (int i = 0; i < size; ) {
+      if (item.equals(data[i])) {
+        delete(i);
+      } else {
+        i++;
+      }
+    }
   }
 
   public static void main(String[] args) {
@@ -108,8 +132,20 @@ public class myVector<T>  {
     vec.stat();
 
     System.out.println("\nPrepend Test:");
-    System.out.println("  Prepending null...");
-    vec.prepend(null);
+    System.out.println("  Prepending 3...");
+    vec.prepend(3);
+    vec.stat();
+
+    System.out.println("\nDelete Test:");
+    System.out.println("  Deleting at index 4...");
+    vec.delete(4);
+    vec.stat();
+
+    System.out.println("\nRemove Test:");
+    System.out.println("  Removing 3(s)...");
+    vec.insert(4, 3);
+    vec.stat();
+    vec.remove(3);
     vec.stat();
   }
 }
